@@ -1,5 +1,4 @@
-﻿using CryptographyBase.Classes;
-using System;
+﻿using System;
 
 
 namespace CryptographyBase
@@ -9,12 +8,14 @@ namespace CryptographyBase
         static void Main(string[] args)
         {
 
+            //  Console.WriteLine(VIGENÈRE.Encrypt("deceptive", "wearediscoveredsaveyourself"));
+            //  Console.WriteLine(VIGENÈRE.EncryptAutokey("deceptive", "wearediscoveredsaveyourself"));
+            //  Console.WriteLine(VIGENÈRE.Decrypt("deceptive", "ZICVTWQNGRZGVTWAVZHCQYGLMGJ"));
 
-
-            double[,] key = {
-                { 17, 17, 5 },
-                { 21, 18,21 },
-                { 2,  2, 19 } };
+            //double[,] key = {
+            //    { 17, 17, 5 },
+            //    { 21, 18,21 },
+            //    { 2,  2, 19 } };
 
             //double[,] Inverskey = {
             //    {4,9,15   },
@@ -24,9 +25,48 @@ namespace CryptographyBase
 
             // PrintArray(Hill.InvertMatrix(key));
 
-            Console.WriteLine(Hill.Encrypt(key, "paymoremoney"));
+            //Console.WriteLine(Hill.Encrypt(key, "paymoremoney"));
 
-            Console.WriteLine(Hill.Decrypt(key, "RRLMWBKASPDH"));
+            //Console.WriteLine(Hill.Decrypt(key, "RRLMWBKASPDH"));
+
+
+            //string plainText = "RAMSWARUPK";
+            //string key = "RANCHOBABA";
+
+            //// Encrypt plaintext
+            //string encryptedText = VERNAM.Encrypt(plainText, key);
+            //Console.WriteLine("Encrypted Text: " + encryptedText);
+
+            //// Decrypt ciphertext
+            //string decryptedText = VERNAM.Encrypt(encryptedText, key);
+            //Console.WriteLine("Decrypted Text: " + decryptedText);
+
+
+
+            //string plainText = "meetmeafterthetogaparty";
+            //int rails = 2;
+
+            //// Encrypt plaintext
+            //string encryptedText = RailFence.Encrypt(plainText, rails);
+            //Console.WriteLine("Encrypted Text: " + encryptedText);
+
+            //// Decrypt ciphertext
+            //string decryptedText = RailFence.Decrypt(encryptedText, rails);
+            //Console.WriteLine("Decrypted Text: " + decryptedText);
+
+
+
+            //string plainText = "attackpostponeuntiltwoamxyz";
+            //int[] key = { 4, 3, 1, 2, 5, 6, 7 };
+
+            //// Encrypt plaintext
+            //string encryptedText = ColumnarTransposition.Encrypt(plainText, key);
+            //Console.WriteLine("Encrypted Text: " + encryptedText);
+
+            //// Decrypt ciphertext
+            //string decryptedText = ColumnarTransposition.Decrypt(encryptedText, key);
+            //Console.WriteLine("Decrypted Text: " + decryptedText);
+
 
 
             Console.ReadKey();

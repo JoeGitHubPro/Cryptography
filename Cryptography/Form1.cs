@@ -130,6 +130,52 @@ namespace Cryptography
                     }
                     break;
 
+                case "VIGENÈRE":
+                    if (isEncrypt)
+                    {
+                        outPut = VIGENÈRE.Encrypt(key, input);
+                    }
+                    else
+                    {
+                        outPut = VIGENÈRE.Decrypt(key, input);
+                    }
+                    break;
+
+                case "VERNAM":
+                    if (isEncrypt)
+                    {
+                        outPut = VERNAM.Encrypt(input, key);
+                    }
+                    else
+                    {
+                        outPut = VERNAM.Encrypt(input, key);
+                    }
+                    break;
+
+                case "RailFence":
+
+                    int depth;
+                    try
+                    {
+                        depth = Int32.Parse(key);
+
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Please enter intger key value.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        break;
+                    }
+
+                    if (isEncrypt)
+                    {
+                        outPut = RailFence.Encrypt(input, depth);
+                    }
+                    else
+                    {
+                        outPut = RailFence.Decrypt(input, depth);
+                    }
+                    break;
                 default:
                     MessageBox.Show("Please select algorthim first.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     break;
@@ -163,6 +209,11 @@ namespace Cryptography
                 }
             }
             return newArray;
+        }
+
+        private void CryptographyForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

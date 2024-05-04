@@ -82,7 +82,10 @@
             "Caesar",
             "MonoAlphabetic",
             "PlayFair",
-            "Hill"});
+            "Hill",
+            "VIGENÈRE",
+            "VERNAM",
+            "RailFence"});
             this.cbCipherAlgorthim.Location = new System.Drawing.Point(246, 241);
             this.cbCipherAlgorthim.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbCipherAlgorthim.Name = "cbCipherAlgorthim";
@@ -223,6 +226,7 @@
             this.Name = "CryptographyForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cryptography";
+            this.Load += new System.EventHandler(this.CryptographyForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

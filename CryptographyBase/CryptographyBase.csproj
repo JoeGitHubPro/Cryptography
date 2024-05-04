@@ -48,9 +48,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Caeser.cs" />
+    <Compile Include="Classes\ColumnarTransposition.cs" />
     <Compile Include="Classes\Hill.cs" />
     <Compile Include="Classes\MonoAlphabetic.cs" />
     <Compile Include="Classes\PlayFair.cs" />
+    <Compile Include="Classes\RailFence.cs" />
+    <Compile Include="Classes\VERNAM.cs" />
+    <Compile Include="Classes\VIGENÈRE.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
