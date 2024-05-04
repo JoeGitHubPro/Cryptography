@@ -33,7 +33,7 @@
   </ol>
   <pre><code>git clone https://github.com/JoeGitHubPro/Cryptography.git</code></pre>
   <ol start="2">
-    <li>Install the required dependencies. [Provide instructions here if there are any specific dependencies or setup steps.]</li>
+    <li>Install the required dependencies.</li>
     <li>Build and run the application using your preferred development environment or IDE.</li>
   </ol>
 
