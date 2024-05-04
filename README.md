@@ -54,7 +54,7 @@
   </ol>
 
   <h2>License</h2>
-  <p>[Indicate the license under which the project is distributed. For example: MIT License, Apache License 2.0, etc.]</p>
+  <p>This project is licensed under the MIT</p>
 
   <h2>Contact</h2>
   <p>If you have any questions or suggestions, feel free to reach out to the project owner:</p>
