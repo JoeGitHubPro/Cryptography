@@ -33,7 +33,7 @@
   </ol>
   <pre><code>git clone https://github.com/JoeGitHubPro/Cryptography.git</code></pre>
   <ol start="2">
-    <li>Install the required dependencies. [Provide instructions here if there are any specific dependencies or setup steps.]</li>
+    <li>Install the required dependencies.</li>
     <li>Build and run the application using your preferred development environment or IDE.</li>
   </ol>
 
@@ -54,7 +54,7 @@
   </ol>
 
   <h2>License</h2>
-  <p>[Indicate the license under which the project is distributed. For example: MIT License, Apache License 2.0, etc.]</p>
+  <p>This project is licensed under the MIT</p>
 
   <h2>Contact</h2>
   <p>If you have any questions or suggestions, feel free to reach out to the project owner:</p>
