@@ -1,90 +1,105 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace CryptographyBase.Classes
 {
     public static class ColumnarTransposition
     {
-
-        public static string Encrypt(string plainText, int[] key)
+        // Helper method to get shift indexes based on the key
+        private static int[] GetShiftIndexes(int[] key)
         {
-            // Remove spaces from the plaintext
-            plainText = plainText.Replace(" ", "").ToUpper();
-
-            // Calculate the number of rows based on the key length
-            int rows = (int)Math.Ceiling((double)plainText.Length / key.Length);
-
-            // Create a matrix to store the plaintext characters
-            char[,] matrix = new char[rows, key.Length];
-
-            // Fill the matrix with the plaintext characters row-wise
-            int index = 0;
-            for (int i = 0; i < rows; i++)
+            int keyLength = key.Length;
+            int[] indexes = new int[keyLength];
+            // Assign index positions based on the key values
+            for (int i = 0; i < keyLength; ++i)
             {
-                for (int j = 0; j < key.Length; j++)
-                {
-                    if (index < plainText.Length)
-                    {
-                        matrix[i, j] = plainText[index++];
-                    }
-                    else
-                    {
-                        matrix[i, j] = 'X'; // Padding with 'X' if the plaintext is not long enough
-                    }
-                }
+                indexes[key[i] - 1] = i;
             }
-
-            // Generate the ciphertext by reading the matrix column by column using the provided key
-            StringBuilder cipherText = new StringBuilder();
-            foreach (int column in key)
-            {
-                for (int i = 0; i < rows; i++)
-                {
-                    cipherText.Append(matrix[i, column - 1]);
-                }
-            }
-
-            return cipherText.ToString();
+            return indexes;
         }
 
-        public static string Decrypt(string cipherText, int[] key)
+        // Encrypts the input text using the Columnar Transposition cipher
+        public static string Encrypt(string input, int[] key)
         {
-            // Calculate the number of rows based on the key length
-            int rows = cipherText.Length / key.Length;
+            StringBuilder output = new StringBuilder();
+            int totalChars = input.Length;
+            int totalColumns = key.Length;
+            // Calculate the total number of rows needed
+            int totalRows = (int)Math.Ceiling((double)totalChars / totalColumns);
 
-            // Create a matrix to store the ciphertext characters
-            char[,] matrix = new char[rows, key.Length];
+            // Create a grid to store characters in rows and columns
+            char[,] grid = new char[totalRows, totalColumns];
 
-            // Fill the matrix with the ciphertext characters column-wise
-            int index = 0;
-            for (int column = 0; column < key.Length; column++)
+            // Fill the grid with characters from the input
+            for (int i = 0; i < totalChars; ++i)
             {
-                for (int i = 0; i < rows; i++)
+                int currentRow = i / totalColumns;
+                int currentColumn = i % totalColumns;
+                grid[currentRow, currentColumn] = input[i];
+            }
+
+            // Get the shift indexes based on the key
+            int[] shiftIndexes = GetShiftIndexes(key);
+
+            // Read characters from the grid column-wise according to shift indexes
+            for (int i = 0; i < totalColumns; ++i)
+            {
+                int columnIndex = shiftIndexes[i];
+                for (int j = 0; j < totalRows; ++j)
                 {
-                    matrix[i, column] = cipherText[index++];
+                    if (grid[j, columnIndex] != '\0') // Skip empty cells
+                    {
+                        output.Append(grid[j, columnIndex]);
+                    }
                 }
             }
 
-            // Sort the key and create a mapping from sorted index to original index
-            Dictionary<int, int> indexMap = Enumerable.Range(0, key.Length)
-                                                      .OrderBy(i => key[i])
-                                                      .Select((val, Index) => new { val, Index })
-                                                      .ToDictionary(item => item.val, item => item.Index);
-
-            // Generate the plaintext by reading the matrix column by column using the sorted key
-            StringBuilder plainText = new StringBuilder();
-            foreach (int INdex in indexMap.Values)
-            {
-                for (int i = 0; i < rows; i++)
-                {
-                    plainText.Append(matrix[i, INdex]);
-                }
-            }
-
-            return plainText.ToString();
+            return output.ToString();
         }
 
+        // Decrypts the ciphertext using the Columnar Transposition cipher
+        public static string Decrypt(string ciphertext, int[] key)
+        {
+            int totalChars = ciphertext.Length;
+            int totalColumns = key.Length;
+            int totalRows = (int)Math.Ceiling((double)totalChars / totalColumns);
+
+            // Create a grid to store characters in rows and columns
+            char[,] grid = new char[totalRows, totalColumns];
+            int charIndex = 0;
+
+            // Get the shift indexes based on the key
+            int[] shiftIndexes = GetShiftIndexes(key);
+
+            // Fill the grid column-wise with characters from the ciphertext
+            for (int i = 0; i < totalColumns; ++i)
+            {
+                int columnIndex = shiftIndexes[i];
+                for (int j = 0; j < totalRows; ++j)
+                {
+                    if (charIndex < totalChars) // Ensure not to go beyond the ciphertext length
+                    {
+                        grid[j, columnIndex] = ciphertext[charIndex];
+                        charIndex++;
+                    }
+                }
+            }
+
+            StringBuilder plaintext = new StringBuilder();
+
+            // Read characters from the grid row-wise to construct the plaintext
+            for (int i = 0; i < totalRows; ++i)
+            {
+                for (int j = 0; j < totalColumns; ++j)
+                {
+                    if (grid[i, j] != '\0') // Skip empty cells
+                    {
+                        plaintext.Append(grid[i, j]);
+                    }
+                }
+            }
+
+            return plaintext.ToString();
+        }
     }
 }

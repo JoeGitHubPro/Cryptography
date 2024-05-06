@@ -176,6 +176,29 @@ namespace Cryptography
                         outPut = RailFence.Decrypt(input, depth);
                     }
                     break;
+                case "ColumnarTransposition":
+
+                    string numbersString = txtKey.Text.ToString();
+                    // Split the string by space and convert substrings to integers
+                    string[] numberStrings = numbersString.Split(' ');
+                    int[] numbers = new int[numberStrings.Length];
+
+                    for (int i = 0; i < numberStrings.Length; i++)
+                    {
+                        numbers[i] = int.Parse(numberStrings[i]);
+                    }
+
+                    if (isEncrypt)
+                    {
+
+                        outPut = ColumnarTransposition.Encrypt(input, numbers);
+                    }
+                    else
+                    {
+
+                        outPut = ColumnarTransposition.Decrypt(input, numbers);
+                    }
+                    break;
                 default:
                     MessageBox.Show("Please select algorthim first.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     break;

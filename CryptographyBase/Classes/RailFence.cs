@@ -22,36 +22,16 @@ namespace CryptographyBase.Classes
             {
                 railArray[railIndex].Append(plainText[i]);
 
-
-                //if (rails == 3 && railIndex == rails - 1)
-                //{
-                //    railIndex = 1;
-                //} 
-                if (rails > 2 && railIndex == rails - 1)
-                {
-                    railIndex = 1;
-                }
-
-
                 railIndex += direction;
 
 
 
                 // Change direction when reaching the top or bottom rail
-                if (railIndex == 0 /*|| railIndex == rails - 1*/)
+                if (railIndex == 0 || railIndex == rails - 1)
                 {
                     direction *= -1;
 
-
                 }
-
-                if (railIndex == rails - 1)
-                {
-
-
-                    direction *= -1;
-                }
-
 
             }
 
@@ -65,41 +45,68 @@ namespace CryptographyBase.Classes
             return encryptedText.ToString();
         }
 
-        public static string Decrypt(string cipherText, int rails)
-        {
-            cipherText = cipherText.ToUpper();
-            // Determine the length of each segment of the rail fence
-            int segmentLength = (rails - 1) * 2;
 
-            // Create an array to store the rail segments
-            string[] segments = new string[rails];
+        public static string Decrypt(string ciphertext, int rails)
+        {
+            // Create the rail fence pattern
+            char[,] fence = new char[rails, ciphertext.Length];
             for (int i = 0; i < rails; i++)
             {
-                segments[i] = "";
+                for (int j = 0; j < ciphertext.Length; j++)
+                {
+                    fence[i, j] = '\n'; // Initialize with a newline character
+                }
             }
 
-            // Distribute the characters of the ciphertext into the rail segments
+            // Mark the positions of the fence where the characters will be placed
+            int rail = 0;
+            bool directionDown = false;
+            for (int i = 0; i < ciphertext.Length; i++)
+            {
+                if (rail == 0 || rail == rails - 1)
+                {
+                    directionDown = !directionDown;
+                }
+
+                fence[rail, i] = '*'; // Mark the position with an asterisk to indicate where the characters will be placed
+
+                rail += directionDown ? 1 : -1;
+            }
+
+            // Fill the fence with the ciphertext characters
             int index = 0;
-            while (index < cipherText.Length)
+            for (int i = 0; i < rails; i++)
             {
-                for (int i = 0; i < rails && index < cipherText.Length; i++)
+                for (int j = 0; j < ciphertext.Length; j++)
                 {
-                    segments[i] += cipherText[index++];
-                }
-                for (int i = rails - 2; i > 0 && index < cipherText.Length; i--)
-                {
-                    segments[i] += cipherText[index++];
+                    if (fence[i, j] == '*' && index < ciphertext.Length)
+                    {
+                        fence[i, j] = ciphertext[index];
+                        index++;
+                    }
                 }
             }
 
-            // Concatenate the rail segments to get the decrypted text
-            StringBuilder decryptedText = new StringBuilder();
-            foreach (string segment in segments)
+            // Read off the fence to get the plaintext
+            string plaintext = "";
+            rail = 0;
+            directionDown = false;
+            for (int i = 0; i < ciphertext.Length; i++)
             {
-                decryptedText.Append(segment);
+                if (rail == 0 || rail == rails - 1)
+                {
+                    directionDown = !directionDown;
+                }
+
+                if (fence[rail, i] != '\n')
+                {
+                    plaintext += fence[rail, i];
+                }
+
+                rail += directionDown ? 1 : -1;
             }
 
-            return decryptedText.ToString();
+            return plaintext;
         }
     }
 }

@@ -85,7 +85,8 @@
             "Hill",
             "VIGENÈRE",
             "VERNAM",
-            "RailFence"});
+            "RailFence",
+            "ColumnarTransposition"});
             this.cbCipherAlgorthim.Location = new System.Drawing.Point(246, 241);
             this.cbCipherAlgorthim.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbCipherAlgorthim.Name = "cbCipherAlgorthim";
