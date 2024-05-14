@@ -7,6 +7,19 @@ namespace CryptographyBase
     {
         static void Main(string[] args)
         {
+            //Console.Write("Enter the plaintext: ");
+            //string plaintext = Console.ReadLine();
+
+            //Console.Write("Enter the key: ");
+            //int key = int.Parse(Console.ReadLine());
+
+            //string ciphertext = RailFenceBase.Encrypt(plaintext, key);
+            //Console.WriteLine("Encrypted text: " + ciphertext);
+
+            //string decryptedText = RailFenceBase.Decrypt(ciphertext, key);
+            //Console.WriteLine("Decrypted text: " + decryptedText);
+
+
 
             //  Console.WriteLine(VIGENÈRE.Encrypt("deceptive", "wearediscoveredsaveyourself"));
             //  Console.WriteLine(VIGENÈRE.EncryptAutokey("deceptive", "wearediscoveredsaveyourself"));

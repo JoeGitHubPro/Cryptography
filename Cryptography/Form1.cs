@@ -141,6 +141,17 @@ namespace Cryptography
                     }
                     break;
 
+                case "VIGENÈRE-AutoKey":
+                    if (isEncrypt)
+                    {
+                        outPut = VIGENÈRE.AutoEncrypt(key, input);
+                    }
+                    else
+                    {
+                        outPut = VIGENÈRE.AutoDecrypt(key, input);
+                    }
+                    break;
+
                 case "VERNAM":
                     if (isEncrypt)
                     {

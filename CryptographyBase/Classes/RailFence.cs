@@ -1,112 +1,87 @@
-﻿using System.Text;
+﻿using System;
 
 namespace CryptographyBase.Classes
 {
     public static class RailFence
     {
 
-        public static string Encrypt(string plainText, int rails)
+
+        public static string Encrypt(string plaintext, int key)
         {
-            plainText = plainText.ToUpper();
-            // Create an array of StringBuilder objects to represent the rails
-            StringBuilder[] railArray = new StringBuilder[rails];
-            for (int i = 0; i < rails; i++)
+            int length = plaintext.Length;
+            int rows = CalculateRows(length, key);
+            int cols = Convert.ToInt32(Math.Ceiling((double)length / rows));
+
+            char[,] matrix = new char[rows, cols];
+
+            int index = 0;
+            for (int col = 0; col < cols; col++)
             {
-                railArray[i] = new StringBuilder();
-            }
-
-            // Fill the rail array with the plaintext characters
-            int railIndex = 0;
-            int direction = 1; // 1 for downward movement, -1 for upward movement
-            for (int i = 0; i < plainText.Length; i++)
-            {
-                railArray[railIndex].Append(plainText[i]);
-
-                railIndex += direction;
-
-
-
-                // Change direction when reaching the top or bottom rail
-                if (railIndex == 0 || railIndex == rails - 1)
+                for (int row = 0; row < rows; row++)
                 {
-                    direction *= -1;
-
+                    if (index < length)
+                        matrix[row, col] = plaintext[index++];
+                    else
+                        matrix[row, col] = ' ';
                 }
-
             }
 
-            // Concatenate the rails to get the encrypted text
-            StringBuilder encryptedText = new StringBuilder();
-            foreach (StringBuilder rail in railArray)
+            string ciphertext = "";
+            for (int row = 0; row < rows; row++)
             {
-                encryptedText.Append(rail);
+                for (int col = 0; col < cols; col++)
+                {
+                    ciphertext += matrix[row, col];
+                }
             }
-
-            return encryptedText.ToString();
+            return ciphertext;
         }
 
-
-        public static string Decrypt(string ciphertext, int rails)
+        public static string Decrypt(string ciphertext, int key)
         {
-            // Create the rail fence pattern
-            char[,] fence = new char[rails, ciphertext.Length];
-            for (int i = 0; i < rails; i++)
-            {
-                for (int j = 0; j < ciphertext.Length; j++)
-                {
-                    fence[i, j] = '\n'; // Initialize with a newline character
-                }
-            }
+            int length = ciphertext.Length;
+            int rows = CalculateRows(length, key);
+            int cols = Convert.ToInt32(Math.Ceiling((double)length / rows));
 
-            // Mark the positions of the fence where the characters will be placed
-            int rail = 0;
-            bool directionDown = false;
-            for (int i = 0; i < ciphertext.Length; i++)
-            {
-                if (rail == 0 || rail == rails - 1)
-                {
-                    directionDown = !directionDown;
-                }
+            char[,] matrix = new char[rows, cols];
 
-                fence[rail, i] = '*'; // Mark the position with an asterisk to indicate where the characters will be placed
-
-                rail += directionDown ? 1 : -1;
-            }
-
-            // Fill the fence with the ciphertext characters
             int index = 0;
-            for (int i = 0; i < rails; i++)
+            for (int row = 0; row < rows; row++)
             {
-                for (int j = 0; j < ciphertext.Length; j++)
+                for (int col = 0; col < cols; col++)
                 {
-                    if (fence[i, j] == '*' && index < ciphertext.Length)
+                    if ((index < length))
                     {
-                        fence[i, j] = ciphertext[index];
-                        index++;
+                        matrix[row, col] = ciphertext[index++];
+                    }
+                    else
+                    {
+                        matrix[row, col] = ' ';
                     }
                 }
             }
 
-            // Read off the fence to get the plaintext
             string plaintext = "";
-            rail = 0;
-            directionDown = false;
-            for (int i = 0; i < ciphertext.Length; i++)
+            for (int col = 0; col < cols; col++)
             {
-                if (rail == 0 || rail == rails - 1)
+                for (int row = 0; row < rows; row++)
                 {
-                    directionDown = !directionDown;
+                    if (matrix[row, col] != ' ')
+                    {
+                        plaintext += matrix[row, col];
+                    }
                 }
-
-                if (fence[rail, i] != '\n')
-                {
-                    plaintext += fence[rail, i];
-                }
-
-                rail += directionDown ? 1 : -1;
             }
-
             return plaintext;
         }
+
+        private static int CalculateRows(int length, int key)
+        {
+            // Calculate rows based on the length of the plaintext and the key
+            return Math.Min(length, key);
+        }
+
+
+
     }
 }
